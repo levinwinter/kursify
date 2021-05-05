@@ -1,5 +1,7 @@
-import { UnparsedCombination } from "../types";
-import Field from "./field";
+import { UnparsedCombination } from './unparsedTypes';
+import { isEqual, isSubarray } from '../utils/array';
+import Choice from './choice';
+import Field from './field';
 
 /**
  * A combination contains a predefined set of fields for majors and minors each. The
@@ -27,6 +29,29 @@ export default class Combination {
             unfolded = unfolded.flatMap(x => minorField.map(field => [...x, field]))
         })
         this.minors = unfolded.map(x => x.map(v => this.abbreviationToField(v, fields)))
+    }
+    
+    /**
+     * The matches method determines wether a given choice matches all the constraints imposed
+     * by this combination.
+     * @param choice The choice to match against this combination
+     * @returns A boolean indicating wether the choice satisfies this combination
+     */
+    public matches(choice: Choice): boolean {
+        return isEqual(choice.asFields().majors, this.majors)
+            && this.minors.some(variation => isEqual(choice.asFields().minors, variation))
+    }
+
+    /**
+     * The matchesPartially method indicates whether a given choice could potentially match this
+     * combination. To partially match, it must be a subset of a valid choice.
+     * @param choice The choice to partially match against this combination
+     * @returns A boolean indicating whether the choice satisfies this combination
+     */
+    public matchesPartially(choice: Choice): boolean {
+        return isSubarray(choice.asFields().majors, this.majors)
+            && this.minors.some(variation => isSubarray(choice.asFields().minors, variation))
+
     }
     
     /**

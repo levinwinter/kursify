@@ -1,18 +1,4 @@
-/**
- * Returns the difference between two arrays. It respects multiplicities and
- * does not mutate the original input.
- * @param minuend The array to subtract from
- * @param subtrahend The array to subtract
- * @returns The difference between the minuend and the subtrahend
- */
-export function minus(minuend: string[], subtrahend: string[]): string[]  {
-    const difference = minuend.slice()
-    subtrahend.forEach(value => {
-        const index = difference.indexOf(value)
-        if (index != -1) difference.splice(index, 1)
-    })
-    return difference
-}
+import Field from '../domain/field'
 
 /**
  * Determines whether an array is a subarray of another array. It respects
@@ -22,7 +8,7 @@ export function minus(minuend: string[], subtrahend: string[]): string[]  {
  * @returns A boolean indicating whether the first argument is a subarray of the
  * second argument.
  */
-export function isSubarray(subarray: string[], superarray: string[]): boolean {
+export function isSubarray(subarray: readonly Field[], superarray: readonly Field[]): boolean {
     for (const index in subarray) {
         const value = subarray[index]
         const valueMultiplicity = subarray.filter(x => value === x).length
@@ -30,4 +16,15 @@ export function isSubarray(subarray: string[], superarray: string[]): boolean {
         if (superMultiplicity < valueMultiplicity) return false
     }
     return true
+}
+
+/**
+ * Checks whether two arrays are equal by determining whether they have the same
+ * contents. The order of the elements is irrelevant, multiplicities matter.
+ * @param a The first array to check
+ * @param b The second array to check
+ * @returns A boolean indicating whether the two arrays have the same elements.
+ */
+export function isEqual(a: readonly Field[], b: readonly Field[]): boolean {
+    return isSubarray(a, b) && isSubarray(b, a)
 }

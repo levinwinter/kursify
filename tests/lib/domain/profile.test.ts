@@ -1,124 +1,52 @@
-import Profile from '../../../lib/domain/profile';
-import { UnparsedProfile } from '../../../lib/types';
+import Profile from '../../../lib/domain/profile'
+import emptyProfile from '../../profiles/empty-profile'
+import tinyProfile from '../../profiles/tiny-profile'
+import mediumProfile from '../../profiles/medium-profile'
 
-test('profile structure correctly parsed', () => {
-    const sut = new Profile(profile)
-    expect(sut.name).toBe('Test Profile')
-    expect(sut.categories.length).toBe(3)
-    expect(sut.categories[0].fields.length).toBe(2)
-    expect(sut.categories[1].fields.length).toBe(1)
-    expect(sut.categories[2].fields.length).toBe(2)
-    expect(sut.categories[0].fields[0].subjects.length).toBe(2)
-    expect(sut.categories[0].fields[1].subjects.length).toBe(1)
-    expect(sut.categories[1].fields[0].subjects.length).toBe(2)
-    expect(sut.categories[2].fields[0].subjects.length).toBe(3)
-    expect(sut.categories[2].fields[1].subjects.length).toBe(2)
-    expect(sut.combinations.length).toBe(2)
-    expect(sut.fields.length).toBe(5)
-    expect(sut.subjects.length).toBe(10)
+describe('profile parsed correctly', () => {
+
+    test('with zero categories, fields, subjects, and combinations', () => {
+        const sut = new Profile(emptyProfile)
+        expect(sut.name).toBe('Empty Profile')
+        expect(sut.categories).toStrictEqual([])
+        expect(sut.fields).toStrictEqual([])
+        expect(sut.subjects).toStrictEqual([])
+        expect(sut.combinations).toStrictEqual([])
+    })
+
+    test('with one category, field, subject, and combination', () => {
+        const sut = new Profile(tinyProfile)
+        expect(sut.name).toBe('Tiny Profile')
+        expect(sut.categories.length).toBe(1)
+        expect(sut.fields.length).toBe(1)
+        expect(sut.fields[0].abbreviation).toBe('field-1')
+        expect(sut.subjects.length).toBe(1)
+        expect(sut.subjects[0].abbreviation).toBe('subject-1')
+        expect(sut.combinations.length).toBe(1)
+        expect(sut.combinations[0].id).toBe(1)
+    })
+
+    test('with two categories, four fields, eight subjects, and two combinations', () => {
+        const sut = new Profile(mediumProfile)
+        expect(sut.name).toBe('Medium Profile')
+        expect(sut.categories.length).toBe(2)
+        expect(sut.fields.length).toBe(4)
+        expect(sut.fields[0].abbreviation).toBe('field-1')
+        expect(sut.fields[1].abbreviation).toBe('field-2')
+        expect(sut.fields[2].abbreviation).toBe('field-3')
+        expect(sut.fields[3].abbreviation).toBe('field-4')
+        expect(sut.subjects.length).toBe(8)
+        expect(sut.subjects[0].abbreviation).toBe('subject-1')
+        expect(sut.subjects[1].abbreviation).toBe('subject-2')
+        expect(sut.subjects[2].abbreviation).toBe('subject-3')
+        expect(sut.subjects[3].abbreviation).toBe('subject-4')
+        expect(sut.subjects[4].abbreviation).toBe('subject-5')
+        expect(sut.subjects[5].abbreviation).toBe('subject-6')
+        expect(sut.subjects[6].abbreviation).toBe('subject-7')
+        expect(sut.subjects[7].abbreviation).toBe('subject-8')
+        expect(sut.combinations.length).toBe(2)
+        expect(sut.combinations[0].id).toBe(1)
+        expect(sut.combinations[1].id).toBe(2)
+    })
+
 })
-
-const profile: UnparsedProfile = {
-    name: 'Test Profile',
-    categories: [
-        {
-            fields: [
-                {
-                    abbreviation: 'F1',
-                    subjects: [
-                        {
-                            abbreviation: 'S1',
-                            asMajor: true,
-                            asMinor: true
-                        },
-                        {
-                            abbreviation: 'S2',
-                            asMajor: false,
-                            asMinor: true
-                        }
-                    ]
-                },
-                {
-                    abbreviation: 'F2',
-                    subjects: [
-                        {
-                            abbreviation: 'S3',
-                            asMajor: true,
-                            asMinor: true
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            fields: [
-                {
-                    abbreviation: 'F3',
-                    subjects: [
-                        {
-                            abbreviation: 'S4',
-                            asMajor: true,
-                            asMinor: false
-                        },
-                        {
-                            abbreviation: 'S5',
-                            asMajor: true,
-                            asMinor: true
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            fields: [
-                {
-                    abbreviation: 'F4',
-                    subjects: [
-                        {
-                            abbreviation: 'S6',
-                            asMajor: true,
-                            asMinor: false
-                        },
-                        {
-                            abbreviation: 'S7',
-                            asMajor: true,
-                            asMinor: true
-                        },
-                        {
-                            abbreviation: 'S8',
-                            asMajor: false,
-                            asMinor: true
-                        }
-                    ]
-                },
-                {
-                    abbreviation: 'F5',
-                    subjects: [
-                        {
-                            abbreviation: 'S9',
-                            asMajor: true,
-                            asMinor: true
-                        },
-                        {
-                            abbreviation: 'S10',
-                            asMajor: true,
-                            asMinor: true
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    combinations: [
-        {
-            id: 1,
-            majors: ['F1', 'F2'],
-            minors: [['F3'], ['F3', 'F4'], ['F1', 'F2', 'F5']]
-        },
-        {
-            id: 2,
-            majors: ['F4', 'F5'],
-            minors: [['F1'], ['F2']]
-        }
-    ]
-}

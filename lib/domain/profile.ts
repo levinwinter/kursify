@@ -1,4 +1,4 @@
-import { UnparsedProfile } from "../types";
+import { UnparsedProfile } from "./unparsedTypes";
 import Category from "./category";
 import Combination from "./combination";
 import Field from "./field";

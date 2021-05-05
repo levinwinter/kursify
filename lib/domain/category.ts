@@ -1,5 +1,5 @@
-import { UnparsedCategory } from "../types";
-import Field from "./field";
+import { UnparsedCategory } from './unparsedTypes';
+import Field from './field';
 
 /**
  * The Category class represents a group of fields. Its purpose is to create sets of

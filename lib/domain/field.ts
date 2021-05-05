@@ -1,4 +1,4 @@
-import { UnparsedField } from "../types"
+import { UnparsedField } from "./unparsedTypes"
 import Category from "./category"
 import Subject from "./subject"
 

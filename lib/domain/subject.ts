@@ -1,4 +1,4 @@
-import { UnparsedSubject } from "../types"
+import { UnparsedSubject } from "./unparsedTypes"
 import Field from "./field"
 
 /**
