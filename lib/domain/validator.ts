@@ -1,4 +1,4 @@
-import { uniq } from 'lodash';
+import {difference, uniq} from 'lodash';
 import Combination from './combination';
 import Profile from './profile';
 import Choice from './choice';
@@ -39,10 +39,7 @@ export default class Validator {
         return this.profile.combinations.filter(combination => {
             return combination.matchesPartially(choice)
         }).map(combination => {
-            return {
-                majors: combination.majors.flatMap(major => major.subjects),
-                minors: combination.minors.flatMap(minor => minor.flatMap(x => x.subjects))
-            }
+            return combination.availableSubjects(choice)
         }).reduce((previous, current) => {
             current.majors = uniq([...previous.majors, ...current.majors])
             current.minors = uniq([...previous.minors, ...current.minors])

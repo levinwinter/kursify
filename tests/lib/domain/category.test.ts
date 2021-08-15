@@ -6,7 +6,10 @@ describe('category is parsed correctly', () => {
         const sut = new Category({
             fields: []
         })
-        expect(sut.fields.length).toBe(0)
+
+        expect(sut).toEqual({
+            fields: []
+        })
     })
 
     test('with one field', () => {
@@ -18,9 +21,16 @@ describe('category is parsed correctly', () => {
                 }
             ]
         })
-        expect(sut.fields.length).toBe(1)
-        expect(sut.fields[0].category).toBe(sut)
-        expect(sut.fields[0].abbreviation).toBe('field-1')
+
+        expect(sut).toEqual({
+            fields: [
+                {
+                    category: sut,
+                    abbreviation: 'field-1',
+                    subjects: []
+                }
+            ]
+        })
     })
 
     test('with three fields', () => {
@@ -40,13 +50,26 @@ describe('category is parsed correctly', () => {
                 }
             ]
         })
-        expect(sut.fields.length).toBe(3)
-        expect(sut.fields[0].category).toBe(sut)
-        expect(sut.fields[0].abbreviation).toBe('field-1')
-        expect(sut.fields[1].category).toBe(sut)
-        expect(sut.fields[1].abbreviation).toBe('field-2')
-        expect(sut.fields[2].category).toBe(sut)
-        expect(sut.fields[2].abbreviation).toBe('field-3')
+
+        expect(sut).toEqual({
+            fields: [
+                {
+                    category: sut,
+                    abbreviation: 'field-1',
+                    subjects: []
+                },
+                {
+                    category: sut,
+                    abbreviation: 'field-2',
+                    subjects: []
+                },
+                {
+                    category: sut,
+                    abbreviation: 'field-3',
+                    subjects: []
+                }
+            ]
+        })
     })
 
 })

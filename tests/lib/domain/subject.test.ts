@@ -15,10 +15,13 @@ describe('subject is parsed correctly', () => {
             asMajor: false,
             asMinor: true
         }, field)
-        expect(sut.abbreviation).toBe('subject-1')
-        expect(sut.asMajor).toBeFalsy()
-        expect(sut.asMinor).toBeTruthy()
-        expect(sut.field).toBe(field)
+
+        expect(sut).toEqual({
+            abbreviation: 'subject-1',
+            asMajor: false,
+            asMinor: true,
+            field: field
+        })
     })
 
 })

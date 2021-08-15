@@ -45,9 +45,12 @@ describe('combination is parsed correctly', () => {
             majors: [],
             minors: []
         }, fields)
-        expect(sut.id).toBe(1)
-        expect(sut.majors).toStrictEqual([])
-        expect(sut.minors).toStrictEqual([])
+
+        expect(sut).toEqual({
+            id: 1,
+            majors: [],
+            minors: []
+        })
     })
 
     test('with one major and one simple minor', () => {
@@ -56,9 +59,12 @@ describe('combination is parsed correctly', () => {
             majors: ['A'],
             minors: [['B']]
         }, fields)
-        expect(sut.id).toBe(2)
-        expect(sut.majors).toStrictEqual([fA])
-        expect(sut.minors).toStrictEqual([[fB]])
+
+        expect(sut).toEqual({
+            id: 2,
+            majors: [fA],
+            minors: [[fB]]
+        })
     })
 
     test('with three majors and three simple minors', () => {
@@ -67,9 +73,12 @@ describe('combination is parsed correctly', () => {
             majors: ['A', 'B', 'C'],
             minors: [['D'], ['E'], ['F']]
         }, fields)
-        expect(sut.id).toBe(3)
-        expect(sut.majors).toStrictEqual([fA, fB, fC])
-        expect(sut.minors).toStrictEqual([[fD, fE, fF]])
+
+        expect(sut).toEqual({
+            id: 3,
+            majors: [fA, fB, fC],
+            minors: [[fD, fE, fF]]
+        })
     })
 
     test('with three majors and one simple and two complex minors', () => {
@@ -78,13 +87,16 @@ describe('combination is parsed correctly', () => {
             majors: ['A', 'B', 'C'],
             minors: [['D', 'E', 'G'], ['B'], ['A', 'C']]
         }, fields)
-        expect(sut.id).toBe(4)
-        expect(sut.majors).toStrictEqual([fA, fB, fC])
-        expect(sut.minors).toStrictEqual([
-            [fD, fB, fA], [fD, fB, fC],
-            [fE, fB, fA], [fE, fB, fC],
-            [fG, fB, fA], [fG, fB, fC]
-        ])
+
+        expect(sut).toEqual({
+            id: 4,
+            majors: [fA, fB, fC],
+            minors: [
+                [fD, fB, fA], [fD, fB, fC],
+                [fE, fB, fA], [fE, fB, fC],
+                [fG, fB, fA], [fG, fB, fC]
+            ]
+        })
     })
 
     test('with unknown field throws error', () => {
