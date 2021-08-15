@@ -14,9 +14,12 @@ describe('field is parsed correctly', () => {
             abbreviation: 'field-1',
             subjects: []
         }, category)
-        expect(sut.abbreviation).toBe('field-1')
-        expect(sut.subjects).toStrictEqual([])
-        expect(sut.category).toBe(category)
+
+        expect(sut).toEqual({
+            abbreviation: 'field-1',
+            subjects: [],
+            category: category
+        })
     })
 
     test('with one subject', () => {
@@ -30,11 +33,19 @@ describe('field is parsed correctly', () => {
                 }
             ]
         }, category)
-        expect(sut.abbreviation).toBe('field-1')
-        expect(sut.subjects[0].abbreviation).toStrictEqual('subject-1')
-        expect(sut.subjects[0].asMajor).toBeTruthy()
-        expect(sut.subjects[0].asMinor).toBeTruthy()
-        expect(sut.category).toBe(category)
+
+        expect(sut).toEqual({
+            abbreviation: 'field-1',
+            subjects: [
+                {
+                    abbreviation: 'subject-1',
+                    asMajor: true,
+                    asMinor: true,
+                    field: sut
+                }
+            ],
+            category: category
+        })
     })
 
     test('with three subjects', () => {
@@ -58,18 +69,31 @@ describe('field is parsed correctly', () => {
                 }
             ]
         }, category)
-        expect(sut.abbreviation).toBe('field-1')
-        expect(sut.subjects[0].abbreviation).toStrictEqual('subject-1')
-        expect(sut.subjects[0].asMajor).toBeTruthy()
-        expect(sut.subjects[0].asMinor).toBeTruthy()
-        expect(sut.subjects[1].abbreviation).toStrictEqual('subject-2')
-        expect(sut.subjects[1].asMajor).toBeTruthy()
-        expect(sut.subjects[1].asMinor).toBeFalsy()
-        expect(sut.subjects[2].abbreviation).toStrictEqual('subject-3')
-        expect(sut.subjects[2].asMajor).toBeFalsy()
-        expect(sut.subjects[2].asMinor).toBeTruthy()
-        expect(sut.category).toBe(category)
-    })
 
+        expect(sut).toEqual({
+            abbreviation: 'field-1',
+            subjects: [
+                {
+                    abbreviation: 'subject-1',
+                    asMajor: true,
+                    asMinor: true,
+                    field: sut
+                },
+                {
+                    abbreviation: 'subject-2',
+                    asMajor: true,
+                    asMinor: false,
+                    field: sut
+                },
+                {
+                    abbreviation: 'subject-3',
+                    asMajor: false,
+                    asMinor: true,
+                    field: sut
+                }
+            ],
+            category: category
+        })
+    })
 
 })

@@ -2,6 +2,8 @@ import { UnparsedCombination } from './unparsedTypes';
 import { isEqual, isSubarray } from '../utils/array';
 import Choice from './choice';
 import Field from './field';
+import Subject from "./subject";
+import {difference, uniq} from "lodash";
 
 /**
  * A combination contains a predefined set of fields for majors and minors each. The
@@ -53,6 +55,19 @@ export default class Combination {
             && this.minors.some(variation => isSubarray(choice.asFields().minors, variation))
 
     }
+
+    public availableSubjects(choice: Choice): { majors: Subject[], minors: Subject[] } {
+        return {
+            majors: difference(this.majors, choice.asFields().majors).flatMap(field => field.subjects),
+            minors: uniq(this.minors.filter(minors => {
+                return isSubarray(choice.asFields().minors, minors)
+            }).map(minors => {
+                return difference(minors, choice.asFields().minors)
+            })).flatMap(minors => {
+                return minors.flatMap(minor => minor.subjects)
+            })
+        }
+    }
     
     /**
      * Maps the string representation of a field to its instance.
@@ -66,6 +81,13 @@ export default class Combination {
             throw new Error(`The field '${abbreviation}' could not be found`)
         }
         return foundField
+    }
+
+    //TODO maybe remove or integrate into constructor
+    private unfoldedMinors(): Field[][] {
+        return this.minors.reduce((previousValue, currentValue) => {
+            return currentValue.flatMap(field => previousValue.map(y => [...y, field]))
+        }, [[]] as Field[][])
     }
     
 }
